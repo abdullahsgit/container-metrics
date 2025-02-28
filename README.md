@@ -132,7 +132,7 @@ It should give empty results for now, but most of the exposed by the tool metric
 As of now, we know how *collector* works and where we should expect containers metrics, collected by it. Let's then start the *collector*! 
 From the root folder (*metrics-collector*) run:
 ```
-bash build_and_run_collector.bash
+./build.sh
 ```
 After a while, you should run:
 ```
