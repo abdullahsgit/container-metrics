@@ -260,15 +260,6 @@ container_used_memory_bytes{container="some-custom-app", instance="localhost:101
 
 Additionally, all Prometheus alerts should be soon off, which you can see by clicking *Alerts* on the Prometheus UI. 
 
-At this point, we should also have access to logs. 
-Some of the containers log messages only on start, so let's stop them by running:
-```
-bash stop_all_containers.bash
-```
-from `containers` directory. Let's then run again:
-```
-bash start_all_containers.bash
-```
 We can also run:
 ```
 docker stats
