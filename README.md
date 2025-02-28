@@ -104,7 +104,7 @@ docker ps
 and see:
 ```
 CONTAINER ID   IMAGE             COMMAND                  CREATED              STATUS              PORTS                                                 NAMES
-6e9142386269   metrics-and-logs-collector   "python3 -u collecto…"   5 seconds ago    Up 4 seconds    0.0.0.0:10101->10101/tcp, :::10101->10101/tcp         metrics-and-logs-collector
+6e9142386269   metrics-collector   "python3 -u collecto…"   5 seconds ago    Up 4 seconds    0.0.0.0:9103->9103/tcp, :::9103->9103/tcp         metrics-collector
 ```
 
 Just a few containers to play with. 
@@ -130,7 +130,7 @@ It should give empty results for now, but most of the exposed by the tool metric
 ### Collector
 
 As of now, we know how *collector* works and where we should expect containers metrics, collected by it. Let's then start the *collector*! 
-From the root folder (*metrics-and-logs-collector*) run:
+From the root folder (*metrics-collector*) run:
 ```
 bash build_and_run_collector.bash
 ```
@@ -141,19 +141,19 @@ docker ps
 and see:
 ```
 CONTAINER ID   IMAGE                        COMMAND                  CREATED          STATUS          PORTS                                                 NAMES
-6e9142386269   metrics-and-logs-collector   "python3 -u collecto…"   5 seconds ago    Up 4 seconds    0.0.0.0:10101->10101/tcp, :::10101->10101/tcp         metrics-and-logs-collector
+6e9142386269   metrics-collector   "python3 -u collecto…"   5 seconds ago    Up 4 seconds    0.0.0.0:10101->10101/tcp, :::10101->10101/tcp         metrics-and-logs-collector
 ```
 
 If you are curious, you can run:
 ```
-docker logs metrics-and-logs-collector
+docker logs metrics-collector
 ```
 And see something similar to:
 ```
 ...
 
 2024-02-12 17:14:53.070 [INFO] collector: Checking containers...
-2024-02-12 17:14:53.082 [INFO] collector: To check containers: ['metrics-and-logs-collector: 4fa4be087200b854aa02a40212b7e1f0ea96d9662d489d9e76d4114be84a9cc2', 'logs-browser: c9082e429507c23252b41abee694b30584e1e2013a2817e04860aa955458af07', 'some-custom-app: a9aea1bc4420a5d0002e6246b218db1dc2e16cfa9ef0dd967317a1c23a8f0268', 'prometheus: 8072263ab5373dc3269d561b4349734ac2a9782a44e0c5f575d54f357a1de4d7', 'postgres-db: e9208517aaacbaef2bbc7edb6a40058051ca367e7f4bf26931e7c85774e2bec9']
+2024-02-12 17:14:53.082 [INFO] collector: To check containers: ['metrics-collector: 4fa4be087200b854aa02a40212b7e1f0ea96d9662d489d9e76d4114be84a9cc2', 'logs-browser: c9082e429507c23252b41abee694b30584e1e2013a2817e04860aa955458af07', 'some-custom-app: a9aea1bc4420a5d0002e6246b218db1dc2e16cfa9ef0dd967317a1c23a8f0268', 'prometheus: 8072263ab5373dc3269d561b4349734ac2a9782a44e0c5f575d54f357a1de4d7', 'postgres-db: e9208517aaacbaef2bbc7edb6a40058051ca367e7f4bf26931e7c85774e2bec9']
 2024-02-12 17:14:53.082 [INFO] containers: Have 5 running containers, checking their metrics/stats...
 2024-02-12 17:14:55.103 [INFO] containers: 
 Metrics checked.
@@ -178,83 +178,83 @@ should give you loads of metrics like these:
 ```
 container_cpu_usage_percent{container="logs-browser", instance="localhost:10101", job="metrics-and-logs-collector", machine="local-machine"}
 0
-container_cpu_usage_percent{container="metrics-and-logs-collector", instance="localhost:10101", job="metrics-and-logs-collector", machine="local-machine"}
+container_cpu_usage_percent{container="metrics-collector", instance="localhost:10101", job="metrics-collector", machine="local-machine"}
 0.0039
-container_cpu_usage_percent{container="postgres-db", instance="localhost:10101", job="metrics-and-logs-collector", machine="local-machine"}
+container_cpu_usage_percent{container="postgres-db", instance="localhost:10101", job="metrics-collector", machine="local-machine"}
 0
-container_cpu_usage_percent{container="prometheus", instance="localhost:10101", job="metrics-and-logs-collector", machine="local-machine"}
+container_cpu_usage_percent{container="prometheus", instance="localhost:10101", job="metrics-collector", machine="local-machine"}
 0.0001
-container_cpu_usage_percent{container="some-custom-app", instance="localhost:10101", job="metrics-and-logs-collector", machine="local-machine"}
+container_cpu_usage_percent{container="some-custom-app", instance="localhost:10101", job="metrics-collector", machine="local-machine"}
 2.0063
-container_cpus_available{container="logs-browser", instance="localhost:10101", job="metrics-and-logs-collector", machine="local-machine"}
+container_cpus_available{container="logs-browser", instance="localhost:10101", job="metrics-collector", machine="local-machine"}
 0.25
-container_cpus_available{container="metrics-and-logs-collector", instance="localhost:10101", job="metrics-and-logs-collector", machine="local-machine"}
+container_cpus_available{container="metrics-and-logs-collector", instance="localhost:10101", job="metrics-collector", machine="local-machine"}
 0.5
-container_cpus_available{container="postgres-db", instance="localhost:10101", job="metrics-and-logs-collector", machine="local-machine"}
+container_cpus_available{container="postgres-db", instance="localhost:10101", job="metrics-collector", machine="local-machine"}
 1
-container_cpus_available{container="prometheus", instance="localhost:10101", job="metrics-and-logs-collector", machine="local-machine"}
+container_cpus_available{container="prometheus", instance="localhost:10101", job="metrics-collector", machine="local-machine"}
 1
-container_cpus_available{container="some-custom-app", instance="localhost:10101", job="metrics-and-logs-collector", machine="local-machine"}
+container_cpus_available{container="some-custom-app", instance="localhost:10101", job="metrics-collector", machine="local-machine"}
 12
-container_logs_created{container="metrics-and-logs-collector", instance="localhost:10101", job="metrics-and-logs-collector", level="info", machine="local-machine"}
+container_logs_created{container="metrics-collector", instance="localhost:10101", job="metrics-collector", level="info", machine="local-machine"}
 1707758095.1165588
-container_logs_created{container="postgres-db", instance="localhost:10101", job="metrics-and-logs-collector", level="info", machine="local-machine"}
+container_logs_created{container="postgres-db", instance="localhost:10101", job="metrics-collector", level="info", machine="local-machine"}
 1707758117.280608
-container_logs_created{container="some-custom-app", instance="localhost:10101", job="metrics-and-logs-collector", level="error", machine="local-machine"}
+container_logs_created{container="some-custom-app", instance="localhost:10101", job="metrics-collector", level="error", machine="local-machine"}
 1707758095.1268246
-container_logs_created{container="some-custom-app", instance="localhost:10101", job="metrics-and-logs-collector", level="info", machine="local-machine"}
+container_logs_created{container="some-custom-app", instance="localhost:10101", job="metrics-collector", level="info", machine="local-machine"}
 1707758100.168529
-container_logs_created{container="some-custom-app", instance="localhost:10101", job="metrics-and-logs-collector", level="warning", machine="local-machine"}
+container_logs_created{container="some-custom-app", instance="localhost:10101", job="metrics-collector", level="warning", machine="local-machine"}
 1707758161.573784
-container_logs_total{container="metrics-and-logs-collector", instance="localhost:10101", job="metrics-and-logs-collector", level="info", machine="local-machine"}
+container_logs_total{container="metrics-collector", instance="localhost:10101", job="metrics-collector", level="info", machine="local-machine"}
 21
-container_logs_total{container="postgres-db", instance="localhost:10101", job="metrics-and-logs-collector", level="info", machine="local-machine"}
+container_logs_total{container="postgres-db", instance="localhost:10101", job="metrics-collector", level="info", machine="local-machine"}
 1
-container_logs_total{container="some-custom-app", instance="localhost:10101", job="metrics-and-logs-collector", level="error", machine="local-machine"}
+container_logs_total{container="some-custom-app", instance="localhost:10101", job="metrics-collector", level="error", machine="local-machine"}
 13
-container_logs_total{container="some-custom-app", instance="localhost:10101", job="metrics-and-logs-collector", level="info", machine="local-machine"}
+container_logs_total{container="some-custom-app", instance="localhost:10101", job="metrics-collector", level="info", machine="local-machine"}
 7
-container_logs_total{container="some-custom-app", instance="localhost:10101", job="metrics-and-logs-collector", level="warning", machine="local-machine"}
+container_logs_total{container="some-custom-app", instance="localhost:10101", job="metrics-collector", level="warning", machine="local-machine"}
 1
-container_max_memory_bytes{container="logs-browser", instance="localhost:10101", job="metrics-and-logs-collector", machine="local-machine"}
+container_max_memory_bytes{container="logs-browser", instance="localhost:10101", job="metrics-collector", machine="local-machine"}
 262144000
-container_max_memory_bytes{container="metrics-and-logs-collector", instance="localhost:10101", job="metrics-and-logs-collector", machine="local-machine"}
+container_max_memory_bytes{container="metrics-collector", instance="localhost:10101", job="metrics-collector", machine="local-machine"}
 262144000
-container_max_memory_bytes{container="postgres-db", instance="localhost:10101", job="metrics-and-logs-collector", machine="local-machine"}
+container_max_memory_bytes{container="postgres-db", instance="localhost:10101", job="metrics-collector", machine="local-machine"}
 524288000
-container_max_memory_bytes{container="prometheus", instance="localhost:10101", job="metrics-and-logs-collector", machine="local-machine"}
+container_max_memory_bytes{container="prometheus", instance="localhost:10101", job="metrics-collector", machine="local-machine"}
 262144000
-container_max_memory_bytes{container="some-custom-app", instance="localhost:10101", job="metrics-and-logs-collector", machine="local-machine"}
+container_max_memory_bytes{container="some-custom-app", instance="localhost:10101", job="metrics-collector", machine="local-machine"}
 33561669632
-container_started_at_timestamp_seconds{container="logs-browser", instance="localhost:10101", job="metrics-and-logs-collector", machine="local-machine"}
+container_started_at_timestamp_seconds{container="logs-browser", instance="localhost:10101", job="metrics-collector", machine="local-machine"}
 1707757813
-container_started_at_timestamp_seconds{container="metrics-and-logs-collector", instance="localhost:10101", job="metrics-and-logs-collector", machine="local-machine"}
+container_started_at_timestamp_seconds{container="metrics-collector", instance="localhost:10101", job="metrics-collector", machine="local-machine"}
 1707758092
-container_started_at_timestamp_seconds{container="postgres-db", instance="localhost:10101", job="metrics-and-logs-collector", machine="local-machine"}
+container_started_at_timestamp_seconds{container="postgres-db", instance="localhost:10101", job="metrics-collector", machine="local-machine"}
 1707757808
-container_started_at_timestamp_seconds{container="prometheus", instance="localhost:10101", job="metrics-and-logs-collector", machine="local-machine"}
+container_started_at_timestamp_seconds{container="prometheus", instance="localhost:10101", job="metrics-collector", machine="local-machine"}
 1707757810
-container_started_at_timestamp_seconds{container="some-custom-app", instance="localhost:10101", job="metrics-and-logs-collector", machine="local-machine"}
+container_started_at_timestamp_seconds{container="some-custom-app", instance="localhost:10101", job="metrics-collector", machine="local-machine"}
 1707757812
-container_up_timestamp_seconds{container="logs-browser", instance="localhost:10101", job="metrics-and-logs-collector", machine="local-machine"}
+container_up_timestamp_seconds{container="logs-browser", instance="localhost:10101", job="metrics-collector", machine="local-machine"}
 1707758205
-container_up_timestamp_seconds{container="metrics-and-logs-collector", instance="localhost:10101", job="metrics-and-logs-collector", machine="local-machine"}
+container_up_timestamp_seconds{container="metrics-collector", instance="localhost:10101", job="metrics-collector", machine="local-machine"}
 1707758204
-container_up_timestamp_seconds{container="postgres-db", instance="localhost:10101", job="metrics-and-logs-collector", machine="local-machine"}
+container_up_timestamp_seconds{container="postgres-db", instance="localhost:10101", job="metrics-collector", machine="local-machine"}
 1707758205
-container_up_timestamp_seconds{container="prometheus", instance="localhost:10101", job="metrics-and-logs-collector", machine="local-machine"}
+container_up_timestamp_seconds{container="prometheus", instance="localhost:10101", job="metrics-collector", machine="local-machine"}
 1707758205
-container_up_timestamp_seconds{container="some-custom-app", instance="localhost:10101", job="metrics-and-logs-collector", machine="local-machine"}
+container_up_timestamp_seconds{container="some-custom-app", instance="localhost:10101", job="metrics-collector", machine="local-machine"}
 1707758205
-container_used_memory_bytes{container="logs-browser", instance="localhost:10101", job="metrics-and-logs-collector", machine="local-machine"}
+container_used_memory_bytes{container="logs-browser", instance="localhost:10101", job="metrics-collector", machine="local-machine"}
 20320256
-container_used_memory_bytes{container="metrics-and-logs-collector", instance="localhost:10101", job="metrics-and-logs-collector", machine="local-machine"}
+container_used_memory_bytes{container="metrics-collector", instance="localhost:10101", job="metrics-collector", machine="local-machine"}
 31956992
-container_used_memory_bytes{container="postgres-db", instance="localhost:10101", job="metrics-and-logs-collector", machine="local-machine"}
+container_used_memory_bytes{container="postgres-db", instance="localhost:10101", job="metrics-collector", machine="local-machine"}
 115363840
-container_used_memory_bytes{container="prometheus", instance="localhost:10101", job="metrics-and-logs-collector", machine="local-machine"}
+container_used_memory_bytes{container="prometheus", instance="localhost:10101", job="metrics-collector", machine="local-machine"}
 104755200
-container_used_memory_bytes{container="some-custom-app", instance="localhost:10101", job="metrics-and-logs-collector", machine="local-machine"}
+container_used_memory_bytes{container="some-custom-app", instance="localhost:10101", job="metrics-collector", machine="local-machine"}
 26755072
 ```
 
@@ -267,6 +267,6 @@ docker stats
 to see stats of various containers:
 ```
 CONTAINER ID   NAME                         CPU %     MEM USAGE / LIMIT     MEM %     NET I/O         BLOCK I/O         PIDS
-4fa4be087200   metrics-and-logs-collector   0.01%     26.23MiB / 250MiB     10.49%    51kB / 70.3kB   10.3MB / 2.17MB   7
+4fa4be087200   metrics-collector            0.01%     26.23MiB / 250MiB     10.49%    51kB / 70.3kB   10.3MB / 2.17MB   7
 ```
-What's worth noting is that *metrics-and-logs-collector* keeps its CPU and MEM usage extremely low on all times :)
+What's worth noting is that *metrics-collector* keeps its CPU and MEM usage extremely low on all times :)
